@@ -1,0 +1,352 @@
+\documentclass[12pt]{article}
+\newcommand{\tab}[1]{\hspace{.1\textwidth}\rlap{#1}}
+\usepackage{lingmacros}
+\usepackage{tree-dvips}
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{subfig}
+\graphicspath{ {figures/} }
+\begin{document}
+	\title{Final Project, Results and figures}
+	\author{Andrew Carr}
+	\maketitle
+	
+	\begin{enumerate}
+		\item[(a)] See figures (1-6)
+		\begin{verbatim}
+		81x41
+		Maximum error:4.117667e-01
+		Max error occurs on ray:1 and ring:8
+		Which is the point:2.423717e+00 1.344738e-06
+		Average Maximum Norm error for p_sc
+		
+		avgerr = 0.0431
+		
+		*****************Errors at Artificial Boundary r=r(N)********************
+		
+		L2 Error for u_sc on r = R: 7.107130e-02
+		
+		Relative L2 Error for u_sc on r = R: 5.602214e-02
+		\end{verbatim}
+		
+		\begin{verbatim}
+		101x51
+		
+		Maximum error:3.170593e-01
+		Max error occurs on ray:1 and ring:9
+		Which is the point:2.384315e+00 1.185841e-06
+		Average Maximum Norm error for p_sc
+		
+		avgerr = 0.0330
+				
+		*****************Errors at Artificial Boundary r=r(N)*******************
+		
+		L2 Error for u_sc on r = R: 4.681081e-02
+		
+		Relative L2 Error for u_sc on r = R: 3.713212e-02
+		\end{verbatim}
+		
+		\begin{verbatim}
+		201x101
+		
+		Maximum error:2.110997e-01
+		Max error occurs on ray:1 and ring:21
+		Which is the point:2.492788e+00 1.934809e-06
+		Average Maximum Norm error for p_sc
+		
+		avgerr = 0.0193
+				
+		*****************Errors at Artificial Boundary r=r(N)*******************
+		
+		L2 Error for u_sc on r = R: 2.933733e-02
+		
+		Relative L2 Error for u_sc on r = R: 2.357255e-02
+		\end{verbatim}
+		Notice that the errors are decreasing when the grid is refined, as expected.
+		\item[(b)] When the grid is refined, the approximations become more smooth and there are fewer irregularities and less noise around the obstacle. This is because increasing the number of points, when the grid is well designed, allows for a better approximation.\\
+		See figures (7 - 9, 12,3)
+		\item[(c)] See figures (9-13)
+		\item[(d)]
+		When $\Delta t$ is changed to $0.05$ we observe that our solution never converges. There is a severe instability in the approximations. This is because, as was proved in class, the approximation is only stable for small values of $\Delta t$
+	\end{enumerate}
+	
+	\clearpage
+	$\boldsymbol{Figures}$
+
+		\begin{figure}[h]
+			\caption{81x41}
+			\centering
+			\includegraphics[width=0.6\textwidth]{8141comparisonpolar.png}
+		\end{figure}
+		\begin{figure}[h]
+			\caption{81x41}
+			\centering
+			\includegraphics[width=0.6\textwidth]{8141comparisoncarti.png}
+		\end{figure}
+		\begin{figure}[h]
+			\caption{101x51}
+			\centering
+			\includegraphics[width=0.6\textwidth]{10151comparisonpolar.png}
+		\end{figure}
+		\begin{figure}[h]
+			\caption{101x51}
+			\centering
+			\includegraphics[width=0.6\textwidth]{10151comparisoncarti.png}
+		\end{figure}
+		\begin{figure}[h]
+			\caption{201x101}
+			\centering
+			\includegraphics[width=0.6\textwidth]{201101comparisonpolar.png}
+		\end{figure}
+		\begin{figure}[h]
+			\caption{201x101}
+			\centering
+			\includegraphics[width=0.6\textwidth]{201101comparisoncarti.png}
+		\end{figure}
+		\begin{figure}[h]
+			\caption{81x41}
+			\centering
+			\includegraphics[width=0.6\textwidth]{8141fullwaverose.png}
+		\end{figure}
+		\begin{figure}[h]
+			\caption{101x51}
+			\centering
+			\includegraphics[width=0.6\textwidth]{10151rosefullwave.png}
+		\end{figure}
+		\begin{figure}[h]
+			\caption{201x101}
+			\centering
+			\includegraphics[width=0.6\textwidth]{201101fullwaverose.png}
+		\end{figure}
+		\begin{figure}[h]
+			\caption{81x41}
+			\centering
+			\includegraphics[width=0.6\textwidth]{8141circlefullwave.png}
+		\end{figure}
+		\begin{figure}[h]
+			\caption{101x51}
+			\centering
+			\includegraphics[width=0.6\textwidth]{10151circlefullwave.png}
+		\end{figure}
+		\begin{figure}[h]
+			\centering
+			\caption{201x101}
+			\includegraphics[width=0.6\textwidth]{201101circlefullwave.png}%
+
+			
+		\end{figure}
+		\begin{figure}
+			\centering
+			\caption{201x101}
+			\includegraphics[width=0.6\textwidth]{201101upshotcircle.png}%
+
+		\end{figure}
+		\begin{figure}[h]
+			\caption{Initial Grid Circle}
+			\centering
+			\includegraphics[width=0.6\textwidth]{10151circleinitialgrid.png}
+		\end{figure}
+		\begin{figure}[h]
+			\caption{Initial Grid rose}
+			\centering
+			\includegraphics[width=0.6\textwidth]{10151roseinitialgrid.png}
+		\end{figure}
+
+		\clearpage
+		\begin{verbatim}
+		Code: 
+		 %Main
+		 close all;
+		 clear all;
+		 
+		 N1 = 201;
+		 N2 = 101;
+		 
+		 % choice = 'rose';
+		 choice = 'circle';
+		 
+		 w = 1.7912;
+		 tol = 10^-6;
+		 n = 8000;
+		 k = 5;
+		 omega = 5;
+		 deltat = 10^-2;
+		 
+		 
+		 [x,y] = definegrid(N1,N2,w,tol,n,choice);
+		 [pfinal, p2] = final(x,y,N1,N2,n,k,omega,deltat);
+		 ExactvsNumerical(x,y,p2,k,2,0,N1,N2);
+		 orient landscape;
+		 figure
+		 title('final graph: abs')
+		 surf(x,y,abs(pfinal),'EdgeColor','black');
+		 shading interp;
+		 grid on;
+		 xlabel('x')
+		 ylabel('y')
+		 axis square;
+		\end{verbatim}	
+		\clearpage
+		\begin{verbatim}
+		 function [ptotal, p2] = final(x,y,N1,N2,n,k,omega,deltat)  
+		 image = sqrt(-1);
+		 
+		 r = 6;
+		 
+		 firsttol = 10^-7;
+		 secondtol = 10^-2;
+		 
+		 %Matrix Initialization
+		 p0 = zeros(N1,N2);
+		 p1 = zeros(N1,N2);
+		 p2 = zeros(N1,N2);
+		 
+		 %initial condition for t = 0
+		 time = 0;
+		 for i = 1:N1-1
+		     p1(i,1) = -(exp(image*k*x(i,1)));
+		 
+		 end
+		     %wrap up
+		     p1(N1,1) = p1(1,1);
+		 
+		 %Time step
+		 for time = 1:n
+		     
+		     %Computation at the obstacle boundary
+		     for i = 1:N1-1
+		         p2(i,1) = -(exp(image*k*x(i,1))*exp(-image*omega*time*deltat));
+		     end
+		     %wrap up
+		     p2(N1,1) = p2(1,1);
+		     
+		     %Computation of interior points
+		     for i = 1:N1-1
+		         for j = 2:N2-1
+		             xeta = (x(i,j+1) - x(i,j-1))/2;
+		             yeta = (y(i,j+1) - y(i,j-1))/2;
+		             
+		             c = 1;
+		             
+		             if i == 1
+		                 ypsi = (y(i+1,j)-y(N1-1,j))/2;
+		                 xpsi = (x(i+1,j)-x(N1-1,j))/2;
+		                 
+		                 jacobian = xpsi*yeta-xeta*ypsi;
+		 
+		                 alpha = xeta^2 + yeta^2;
+		                 beta = xpsi*xeta + ypsi*yeta;
+		                 gamma = xpsi^2 + ypsi^2;
+		             
+		                 g = ((c*deltat)/jacobian)^2;
+		                 
+		                 p2(i,j) = p1(N1-1,j)*(alpha*g) + p1(i+1,j)*(alpha*g)+p1(i,j-1)*(gamma*g)+p1(i,j+1)*(gamma*g) ...
+		                 - 2*g*beta*(p1(i+1,j+1)-p1(i+1,j-1)-p1(N1-1,j+1)+p1(N1-1,j-1))/4 - p0(i,j) + p1(i,j)*((-2*alpha*g)-(2*gamma*g)+2);
+		             else
+		                 ypsi = (y(i+1,j)-y(i-1,j))/2;
+		                 xpsi = (x(i+1,j)-x(i-1,j))/2;  
+		                 
+		                 jacobian = xpsi*yeta-xeta*ypsi;
+		                 
+		                 alpha = xeta^2 + yeta^2;
+		                 beta = xpsi*xeta + ypsi*yeta;
+		                 gamma = xpsi^2 + ypsi^2;
+		                 
+		                 g = ((c*deltat)/jacobian)^2;
+		 
+		                 p2(i,j) = p1(i-1,j)*(alpha*g) + p1(i+1,j)*(alpha*g)+p1(i,j-1)*(gamma*g)+p1(i,j+1)*(gamma*g) ...
+		                 - 2*g*beta*(p1(i+1,j+1)-p1(i+1,j-1)-p1(i-1,j+1)+p1(i-1,j-1))/4 - p0(i,j) + p1(i,j)*((-2*alpha*g)-(2*gamma*g)+2);
+		             end
+		         end
+		     end
+		     %wrap up
+		     for j = 2:N2-1
+		         p2(N1,j) = p2(1,j);
+		     end
+		     
+		     %Computation at artificial boundary
+		     for i = 1:N1-1
+		         
+		         %Backwards scheme to eliminate ghost points
+		         xeta = (3/2)*x(i,N2) - 2*x(i,N2-1) + (1/2)*x(i,N2-2);
+		         yeta = (3/2)*y(i,N2) - 2*y(i,N2-1) + (1/2)*y(i,N2-2);
+		         
+		         c = 1;
+		         
+		         if i == 1
+		             ypsi = (y(i+1,N2)-y(N1-1,N2))/2;
+		             xpsi = (x(i+1,N2)-x(N1-1,N2))/2;
+		             
+		             jacobian = xpsi*yeta-xeta*ypsi;
+		             g = ((c*deltat)/jacobian)^2;
+		 
+		             alpha = xeta^2 + yeta^2;
+		             beta = xpsi*xeta + ypsi*yeta;
+		             gamma = xpsi^2 + ypsi^2;
+		             
+		             %Variables used to ease calculation
+		             delt = c/(r*jacobian);
+		             lambda = y(i,N2)*xpsi-x(i,N2)*)psi;
+	$     h "0  `kgy = x(all2*yev$0- {(i,N2£+Xet0;Š		&  ! 0° "(!$L }2)1+(çamm!*g	/($e`tat*de,t*lambd!+é
+	‰    (` !$    capC"= )-:ah4`i*g-2*gaí-a:g+2(o
+É! (  "(     B14= ((q/4y*(3jp1(I+Q,H") ) 4ª|i+1$O6‡1)¨+ p1!a+1,N22) ­)3
+p9(N14,J2	`+"4*p1(N±-1,N-1) m4p!(Æ1,1¬N²-2))){
+A	0  "   $     R! ? 00(é,N2)o0daltCö*eel|*hambda-;
+	 0 `   & @(  V22= +laMbäa®kaù:(P5¨a+,Nz) = p1,N1-1,N2©)/2;
+Iˆ      0    ` R3 =`b"x1(I,J2)/(d%lt"n`lfda*2);J		 @   (       R4(9 p¨i-4-!);
+	      0  
+		8  ( "& !`  0$A#tual bownäapy equationI	""    !    ! p3(i8F2) = (g*elpheB).P3(i/1 L2- . (g*alpèa/E	
+p1,N1-1lN	,(3*'j`gtaoD)*B1+,gamma*g/D!zR1­¦(gamma(gD)"R2 -((gñoMa
+o/D¨*3 .nn
+		$$    0 $"  !(  !à:GEOmc¨s/D)jB4) g!Mma"o/E)*p0(i,^2-1)-p0(i,N2)?@+ccpC/@)*R1ªi,N2)
+	‰       mlse
+	 4"¢  !  	xpsi =((y(i5,O)=q)i-1.N2(/+2;(	    ¨    `" xrSi ? iy*a»1,N2)-x(i-nN2(=2;		% ¨ á $     b
+		       )  $jácobaaî }0xPói.qeta-he\!.9psi;
+	H"4`  $(`( %  g`= 8(c*¤eltct)/jacoâia.©2;
+ 
+		 p   1    0  `lx(a!= {eta^" + ygte^ ;		(@  "   (   "beta) xtsiªxada + }psx*yuta;		       0!à  $gamíq$= xasiZ0`* y1si~:;
+		   "        I	   !    (    %V	pya',es uqEd"to eAse !al{5latéoþ*	™ ! "" `     "nelô ½$c/(r*jakobiin)³*	  @     0   lambda"?`y(i,O2(*ppsimx(i,
+2©*yp3k;
+	   0"  "    !káx = ø(m,L0-
+yeda , y(i,N2)"øeta3
+		             @` *0ë(camieëG«o)deltap(delt*,cebda))+
+	" $ $ `( !` capCà= (-2*adðhA.÷m²*Gamma(g+2);
+	! €"   $   0B1 = (¨0/<i*(;*p a+±N2) ½ 7*pu(y+1,J"­1) / p1(ëk5,n2,2- ) 3,p1(i-1,N2) +"4*P1(I-1lN:19°-$p1(i-1,2-2+	);		 & "0    `(! Ba = p0(i)N6)/(leltat.dul|®hálbäa);
+		   à   !, 6$ R0 = 2,Nambla*key*(1! i1<N- ­ p1(i)1,O³))?";	 ` 1  (  0   R3 =bc*p1(a,^2iŸ,dgl|*laM*E!*Ri;
+	‰ ¥          R4 = xlK,N2-);
+	   0$(0`  1
+		 t¤ à   0    -Ac|ual(jouNdAry equatkonJ	     0       P2`k,^2©4= g*alp(a/D)*03(ik5(N2()+0 c*i`riqE)+ð1 i0,Î2i-(²/g*jeva)'@)*B3+(eamoaZg/D(*Z1 -  gamma
+ç-D)"Òr(- hgamma*G/D)R³$.,®
+ p  ```          /h'a-lc*{/D!*R4(gk/me:g-D)*x1(i,N2-1©,p (i,N2)/Ì*ChpA/Fy*q9(i,Ê2i{
+		(  ! $    ln|
+		     %~l
+	  " !   0-wzapping upŠ	 ¢       p2*^5,N2)d= p(3,L3I»
+		`   ¨
+) ‰	 ``1 Sto0 ãritgria	    ( I	     fulmva-õç`=p;
+	 ª		  "  fkR i! 9:J1
+		 0 (¢ "  fnò z4=#3:N20   $  0 `""8nhff = Aâs*Abq(p2(i,b))Íabs(r1)i-j))3
+	        `  ! fulL~a,we = .uìhvalwe  difd?
+	     $0 `endB	 (0 "end‰	2 & 	 `  âCveraoe$} fullvilue / (Nªþ");		  $ $*)	    $Ig`tile <=p0 
+‰   (°!  8`f(avAPagd =0fMrsttOm)
+		     `  $   0di3p(timE	
+)	     d      breaK
+		 "       eÎä
+		0 a $dlse!f tiy% <ð200
+		   `  "`(ie(a6uragõ < qecnnttgl).		  `     (`!  ,isP(time)		   ¡ $  !4 " brEaj
+	$   $  % endŠ)	 $  enf
+)I   ` 
+		` "  %uqd`te presstve mat2Iø	   # P3 = r0;
+		  &$ ru = X2;I	` a  )$0   
+		 !   if eof(tie,10 ! =½00
+	I( 0`    ¨fYsp,tiEe)
+	-0(¢ ªine
+		 enD	 
+,)`%crEc4In oV incade-t uve$$kú$e~vh2q"domaIn, tn!fr!rx
+	!pMoc = beros(N1,N(;
+	"fs hUw = 1:tiýeH‰	   ¨0Fgò i = 1:N0
+	  (¤   ( FïR n = 1:î2Š		   ` $       xiNC¨i,z) 9 exp(wQrt(-1)"k*x(y,j9):m¸qh,sqrtˆ-1(ªoiega"îew*del|aw-«
+		4   `   0!,e	;`  ( endŠ	 u.d
+		 ptoôal 9 p3 #*pinc:		Üundkwurâatim,
+\m|dd£UmeN4=
